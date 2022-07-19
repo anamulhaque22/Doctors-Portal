@@ -9,9 +9,12 @@ body {
 
 @layer components {
     .container-area {
-        @apply container mx-auto px-5 md:px-2
+        @apply container mx-auto px-5 md:px-7
     }
     .menu-link{
         @apply text-black hover:bg-accent active:bg-accent hover:text-neutral
+    }
+    .gradient-bg{
+        @apply bg-gradient-to-r from-secondary to-primary
     }
 }

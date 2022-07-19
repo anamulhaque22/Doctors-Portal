@@ -5,7 +5,7 @@ module.exports = {
   ],
   theme: {
     screens: {
-      'sm': '480px',
+      'sm': '576px',
       'md': '768px',
       'lg': '976px',
       'xl': '1440px',
@@ -13,6 +13,8 @@ module.exports = {
     extend: {
       backgroundImage: {
         'hero-bg': "url('/src/assets/images/bg.png')",
+        'contact-bg': "url('/src/assets/images/appointment.png')",
+        'footer-bg': "url('/src/assets/images/footer.png')",
       }
     },
   },
