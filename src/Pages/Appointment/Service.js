@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Button from '../Shared/Button';
 
 const Service = ({ service, setTreatment }) => {
     const { name, slots } = service;

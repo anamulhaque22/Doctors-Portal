@@ -5,6 +5,7 @@ import useService from '../../hooks/useService';
 import Service from './Service';
 import BookingModal from './BookingModal';
 const AvailableServices = ({ date }) => {
+
     const [services] = useService();
     const [treatment, setTreatment] = useState(null);
 
