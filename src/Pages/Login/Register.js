@@ -1,37 +1,31 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import auth from '../../firebase.init';
 import { useForm } from "react-hook-form";
-import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-
-const Login = () => {
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
+import { Link, useNavigate } from 'react-router-dom';
+const Register = () => {
+    const navigate = useNavigate();
     const { register, formState: { errors }, handleSubmit } = useForm();
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-    let navigate = useNavigate();
-    let location = useLocation();
-    let from = location.state?.from?.pathname || "/";
     const [
-        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
         user,
         loading,
         error,
-    ] = useSignInWithEmailAndPassword(auth);
+    ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
+
     let errorMessage;
-
-
-    useEffect(() => {
-        if (user || gUser) {
-            navigate(from, { replace: true });
-        }
-    }, [user, gUser, navigate, from]);
     if (gError || error) {
         errorMessage = <p>{error?.message}{gError?.message}</p>
     }
 
-    const onSubmit = data => {
-        signInWithEmailAndPassword(data.email, data.passsword);
-        console.log(user);
+    const onSubmit = async data => {
+        await createUserWithEmailAndPassword(data.email, data.passsword);
+        await updateProfile({ displayName: data.name });
+        navigate('/login');
     }
+
     return (
         <div className='flex justify-center items-center container-area min-h-[calc(100vh-64px)]'>
             <div className="card w-96 bg-base-100 shadow">
@@ -43,7 +37,27 @@ const Login = () => {
 
                     {/* Login Form */}
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                        {/* email field */}
+                        {/* Name field */}
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label text-sm font-normal">Name</label>
+                            <input
+                                {...register("name", {
+                                    required: {
+                                        value: true,
+                                        message: "Email is required"
+                                    }
+                                })}
+                                type="text"
+                                className="input input-bordered w-full max-w-xs"
+                            />
+
+                            {
+                                errors.name?.type === 'required' &&
+                                <label className="label text-sm font-normal">{errors.name?.message}</label>
+                            }
+
+                        </div>
+                        {/* Email field */}
                         <div className="form-control w-full max-w-xs">
                             <label className="label text-sm font-normal">Email</label>
                             <input
@@ -93,16 +107,15 @@ const Login = () => {
                                 {errors.passsword?.type === 'required' && <span>{errors.passsword?.message}</span>}
                                 {errors.passsword?.type === 'minLength' && <span>{errors.passsword?.message}</span>}
                             </label>
-                            <Link to='/resetpassword' className="label text-[10px] font-normal">Froget Password?</Link>
                         </div>
                         {errorMessage}
                         {/* Submit button */}
                         <div className="form-control w-full max-w-xs">
-                            <input type="submit" value="LOGIN" className="btn bg-accent text-neutral text-base w-full max-w-xs" />
+                            <input type="submit" value="SINGUP" className="btn bg-accent text-neutral text-base w-full max-w-xs" />
                         </div>
                     </form>
                     <div>
-                        <p className='text-sm text-black text-center'>New to Doctors Portal? <Link to='/register' className='text-secondary'>Create new account</Link></p>
+                        <p className='text-sm text-black text-center'>Already have an account? <Link to='/login' className='text-secondary'>Login</Link></p>
                     </div>
                     <div className="divider text-xl">OR</div>
                     <div className='w-full max-w-xs flex'>
@@ -115,4 +128,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
