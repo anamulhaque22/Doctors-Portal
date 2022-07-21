@@ -5,7 +5,7 @@ import Info from './Info';
 
 const Banner = () => {
     return (
-        <section id="banner" className="bg-hero-bg">
+        <section id="banner" className="bg-hero-bg bg-no-repeat	bg-cover">
             <div className="container-area flex flex-col justify-around min-h-[calc(100vh-64px)]">
                 {/* Hero top */}
                 <div className="flex flex-col mb-7 items-center lg:flex-row-reverse">

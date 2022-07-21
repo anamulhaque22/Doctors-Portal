@@ -5,7 +5,7 @@ const Navbar = () => {
     const menuItem = <>
     {/* menu-link class defination in index.css */}
         <li><Link className='menu-link' to="/">Home</Link></li>
-        <li><Link className='menu-link' to="/appointment">Appointment</Link></li>
+        <li><Link className='menu-link' to="/appoinment">Appointment</Link></li>
         <li><Link className='menu-link' to="/reviews">Reviews</Link></li>
         <li><Link className='menu-link' to="/contact">Contact Us</Link></li>
         <li><Link className='menu-link' to="/about">About</Link></li>

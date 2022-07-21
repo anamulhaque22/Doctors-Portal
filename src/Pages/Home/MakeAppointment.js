@@ -3,7 +3,7 @@ import doctor from '../../assets/images/doctor.png';
 import Button from '../Shared/Button';
 const MakeAppointment = () => {
     return (
-        <section id='appointment-section' className='bg-contact-bg md:mt-[200px]'>
+        <section id='appointment-section' className='bg-contact-bg bg-no-repeat	bg-cover md:mt-[200px]'>
             <div className="container-area">
                 <div className='flex justify-center items-center'>
                     <div className="hidden md:block flex-1">

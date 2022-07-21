@@ -14,7 +14,7 @@ const ContactUs = () => {
         }
     }
     return (
-        <section id='contact' className='bg-contact-bg py-14 mt-10 md:mt-20'>
+        <section id='contact' className='bg-contact-bg bg-no-repeat	bg-cover py-14 mt-10 md:mt-20'>
             <div className="container-area">
                 {/* Contact Heading */}
                 <div className='text-center mb-8'>
