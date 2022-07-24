@@ -1,14 +1,19 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
 
-const useService = () => {
-    const [services, setServices] = useState([]);
+const useService = (date) => {
 
-    useEffect(() => {
-        axios.get('http://localhost:5000/service')
-            .then(res => setServices(res.data))
-    }, []);
 
-    return [services, setServices];
+
+    const { isLoading, error, data:services, refetch } = useQuery(['available', date], () =>
+        axios.get(`http://localhost:5000/available?date=${date}`)
+    )
+    // const [services, setServices] = useState([]);
+
+    /*     useEffect(() => {
+            axios.get(`http://localhost:5000/available?date=${date}`)
+                .then(res => setServices(res.data))
+        }, [date]); */
+    return { services, isLoading, error, refetch };
 }
 export default useService;

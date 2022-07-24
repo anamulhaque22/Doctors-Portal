@@ -5,10 +5,12 @@ import useService from '../../hooks/useService';
 import Service from './Service';
 import BookingModal from './BookingModal';
 const AvailableServices = ({ date }) => {
-
-    const [services] = useService();
+    const formatedDate = format(date, 'PP');
+    const { services, isLoading, refetch } = useService(formatedDate);
     const [treatment, setTreatment] = useState(null);
-
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
     return (
         <div className='container-area flex justify-center flex-col py-20'>
             {/* Available Service Top */}
@@ -18,7 +20,7 @@ const AvailableServices = ({ date }) => {
             </div>
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-7 mt-14'>
                 {
-                    services.map(service => <ServiceList name={service.name} key={service._id}></ServiceList>)
+                    services.data.map(service => <ServiceList name={service.name} key={service._id}></ServiceList>)
                 }
             </div>
             {/* Service booking */}
@@ -26,7 +28,7 @@ const AvailableServices = ({ date }) => {
                 <h4 className='text-[22px] text-secondary text-center'>Available slots for Teeth Orthodontics.</h4>
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-7 mt-14'>
                     {
-                        services.map(service =>
+                        services.data.map(service =>
                             <Service
                                 service={service}
                                 key={service._id}
@@ -34,7 +36,12 @@ const AvailableServices = ({ date }) => {
                             >
                             </Service>)
                     }
-                    {treatment && <BookingModal setTreatment={setTreatment} date={date} treatment={treatment}></BookingModal>}
+                    {treatment && <BookingModal
+                        setTreatment={setTreatment}
+                        refetch={refetch}
+                        date={date}
+                        treatment={treatment}
+                    ></BookingModal>}
                 </div>
             </div>
         </div>

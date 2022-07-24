@@ -1,36 +1,40 @@
 import React, { useEffect } from 'react';
 import auth from '../../firebase.init';
 import { useForm } from "react-hook-form";
-import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useToken from '../../hooks/useToken';
 
 const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-    let navigate = useNavigate();
-    let location = useLocation();
-    let from = location.state?.from?.pathname || "/";
     const [
         signInWithEmailAndPassword,
         user,
         loading,
         error,
     ] = useSignInWithEmailAndPassword(auth);
+    let navigate = useNavigate();
+    let location = useLocation();
+    let from = location.state?.from?.pathname || "/";
+
     let errorMessage;
 
-
+    const [token] = useToken(user || gUser);
     useEffect(() => {
-        if (user || gUser) {
+        if (token) {
             navigate(from, { replace: true });
         }
-    }, [user, gUser, navigate, from]);
+    }, [token, navigate, from]);
+    if (gLoading || loading) {
+        return <p>Loading...</p>
+    }
     if (gError || error) {
         errorMessage = <p>{error?.message}{gError?.message}</p>
     }
 
     const onSubmit = data => {
         signInWithEmailAndPassword(data.email, data.passsword);
-        console.log(user);
     }
     return (
         <div className='flex justify-center items-center container-area min-h-[calc(100vh-64px)]'>
