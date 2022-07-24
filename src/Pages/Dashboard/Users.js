@@ -1,13 +1,44 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { signOut } from 'firebase/auth';
 import React from 'react';
+import { toast } from 'react-toastify';
+import auth from '../../firebase.init';
 
 const Users = () => {
-    const { isLoading, error, data: users } = useQuery(['users'], () =>
-        axios.get('http://localhost:5000/user')
+    const { isLoading, error, data: users, refetch } = useQuery(['users'], () =>
+        axios.get('http://localhost:5000/user', { headers: { "authorization": `Bearer ${localStorage.getItem('accessToken')}` } })
+            .catch((err) => {
+                if (err.response) {
+                    if (err.response.status === 401 || err.response.status === 403) {
+                        signOut(auth);
+                        localStorage.removeItem('accessToken');
+                    }
+                }
+            })
     )
     if (isLoading) {
         return <div>Loading...</div>
+    }
+    const makeAdmin = (email) => {
+        axios.put(`http://localhost:5000/user/admin/${email}`, {}, { headers: { "authorization": `Bearer ${localStorage.getItem('accessToken')}` } })
+            .then(res => {
+                if (res.data) {
+                    toast.success('User made admin');
+                    refetch();
+                }
+                return res;
+            })
+            .catch((err) => {
+                if(err.response){
+                    if(err.response.status === 403){
+                        toast.error('You are not authorized to make user admin');
+                    }
+                }
+            })
+    }
+    const removeAdmin = (user) => {
+
     }
     return (
         <div>
@@ -28,8 +59,8 @@ const Users = () => {
                             users.data.map((user, index) => <tr key={user._id}>
                                 <th>{index + 1}</th>
                                 <td>{user.email}</td>
-                                <button class="btn btn-sm">Make Admin</button>
-                                <button class="btn btn-sm">Remove Admin</button>
+                                <td>{user.role !== 'admin' && <button onClick={() => makeAdmin(user.email)} class="btn btn-sm">Make Admin</button>}</td>
+                                <td>{user.role === 'admin' && <button onClick={() => removeAdmin(user.email)} class="btn btn-sm">Remove Admin</button>}</td>
                             </tr>)
                         }
                     </tbody>

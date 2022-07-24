@@ -10,10 +10,10 @@ const useToken = user => {
         if (email) {
             axios.put(`http://localhost:5000/user/${email}`, updateEmail)
                 .then(res => {
-                    console.log(res.data);
                     const accessToken = res.data.token;
                     localStorage.setItem('accessToken', accessToken);
                     setToken(accessToken);
+                    return;
                 })
         }
     }, [user]);
