@@ -7,7 +7,7 @@ import auth from '../../firebase.init';
 
 const Users = () => {
     const { isLoading, error, data: users, refetch } = useQuery(['users'], () =>
-        axios.get('https://doctors-portal-server-lac.vercel.app/user', { headers: { "authorization": `Bearer ${localStorage.getItem('accessToken')}` } })
+        axios.get('http://localhost:5000/user', { headers: { "authorization": `Bearer ${localStorage.getItem('accessToken')}` } })
             .catch((err) => {
                 if (err.response) {
                     if (err.response.status === 401 || err.response.status === 403) {
@@ -21,7 +21,7 @@ const Users = () => {
         return <div>Loading...</div>
     }
     const makeAdmin = (email) => {
-        axios.put(`https://doctors-portal-server-lac.vercel.app/user/admin/${email}`, {}, { headers: { "authorization": `Bearer ${localStorage.getItem('accessToken')}` } })
+        axios.put(`http://localhost:5000/user/admin/${email}`, {}, { headers: { "authorization": `Bearer ${localStorage.getItem('accessToken')}` } })
             .then(res => {
                 if (res.data) {
                     toast.success('User made admin');

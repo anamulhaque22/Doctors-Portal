@@ -9,7 +9,7 @@ const MyAppointment = () => {
     const [user] = useAuthState(auth);
     useEffect(() => {
         if (user) {
-            axios.get(`https://doctors-portal-server-lac.vercel.app/booking?email=${user.email}`, { headers: { "authorization": `Bearer ${localStorage.getItem('accessToken')}` } })
+            axios.get(`http://localhost:5000/booking?email=${user.email}`, { headers: { "authorization": `Bearer ${localStorage.getItem('accessToken')}` } })
                 .then(res => setAppoinments(res.data))
                 .catch((err) => {
                     if (err.response) {

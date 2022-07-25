@@ -7,7 +7,7 @@ const useAdmin = (user) => {
     useEffect(() => {
         const email = user?.email;
         if (email) {
-            axios.get(`https://doctors-portal-server-lac.vercel.app/admin/${email}`)
+            axios.get(`http://localhost:5000/admin/${email}`)
                 .then(res => {
                     setAdmin(res.data.admin)
                     setAdminLoading(false);

@@ -15,6 +15,7 @@ import MyAppointment from './Pages/Dashboard/MyAppointment';
 import MyReview from './Pages/Dashboard/MyReview';
 import Users from './Pages/Dashboard/Users';
 import RequireAdmin from './Pages/Login/RequireAdmin';
+import AddDoctor from './Pages/Dashboard/AddDoctor';
 
 function App() {
   return (
@@ -22,9 +23,11 @@ function App() {
       <Navbar></Navbar>
       <Routes>
         <Route path="/" element={<Home />} />
+
         <Route path="/appoinment" element={<RequireAuth>
           <Appoinment />
         </RequireAuth>} />
+
         <Route path="dashboard" element={<RequireAuth>
           <Dashboard />
         </RequireAuth>}>
@@ -33,7 +36,11 @@ function App() {
           <Route path='users' element={<RequireAdmin>
             <Users />
           </RequireAdmin>} />
+          <Route path='adddoctor' element={<RequireAdmin>
+            <AddDoctor />
+          </RequireAdmin>} />
         </Route>
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
