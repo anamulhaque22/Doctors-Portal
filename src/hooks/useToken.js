@@ -8,7 +8,7 @@ const useToken = user => {
         const email = user?.user?.email;
         const updateEmail = { email: email };
         if (email) {
-            axios.put(`http://localhost:5000/user/${email}`, updateEmail)
+            axios.put(`https://doctors-portal-server-lac.vercel.app/user/${email}`, updateEmail)
                 .then(res => {
                     const accessToken = res.data.token;
                     localStorage.setItem('accessToken', accessToken);
