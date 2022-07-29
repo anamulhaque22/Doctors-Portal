@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Service = ({cart}) => {
-    const {img, title, description} = cart;
+const Service = ({ cart }) => {
+    const { img, title, price, description } = cart;
     return (
         <div className="card w-full bg-base-100 shadow-2xl">
             <figure className="px-10 pt-10">

@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
+import { Link } from 'react-router-dom';
 
 const MyAppointment = () => {
     const [appoinments, setAppoinments] = useState([]);
@@ -31,6 +32,7 @@ const MyAppointment = () => {
                         <th>Name</th>
                         <th>Service</th>
                         <th>Time</th>
+                        <th>Payment</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,6 +42,7 @@ const MyAppointment = () => {
                             <td>{appoinment.userName}</td>
                             <td>{appoinment.name}</td>
                             <td>{appoinment.time}</td>
+                            <td>{(appoinment.price && !appoinment?.paid) ? <Link to={`/dashboard/payment/${appoinment._id}`} className="btn btn-sm">Pay</Link> : <p className='text-xl'>Paid</p>}</td>
                         </tr>
                         )
                     }

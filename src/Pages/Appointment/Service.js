@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const Service = ({ service, setTreatment }) => {
-    const { name, slots } = service;
+    const { name, slots, price } = service;
     const [selectedSlot, setSelectedSlot] = useState([slots[0]]);
     const handleSlotSelect = (e) => {
         setSelectedSlot(e.target.value);
@@ -16,6 +16,7 @@ const Service = ({ service, setTreatment }) => {
                 }
             </select>
             <p className='text-[#000000] text-[12px]'>{slots.length} {slots.length === 0 ? "SPACE" : "SPACES"} AVAILABLE</p>
+            <p className='text-[#000000] text-[12px]'>$ {price}</p>
             <label
                 disabled={slots.length === 0}
                 className="btn gradient-bg text-white border-0 font-bold disabled:opacity-30 disabled:text-white"

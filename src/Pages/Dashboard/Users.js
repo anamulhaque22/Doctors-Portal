@@ -59,8 +59,8 @@ const Users = () => {
                             users.data.map((user, index) => <tr key={user._id}>
                                 <th>{index + 1}</th>
                                 <td>{user.email}</td>
-                                <td>{user.role !== 'admin' && <button onClick={() => makeAdmin(user.email)} class="btn btn-sm">Make Admin</button>}</td>
-                                <td>{user.role === 'admin' && <button onClick={() => removeAdmin(user.email)} class="btn btn-sm">Remove Admin</button>}</td>
+                                <td>{user.role !== 'admin' && <button onClick={() => makeAdmin(user.email)} className="btn btn-sm">Make Admin</button>}</td>
+                                <td>{user.role === 'admin' && <button onClick={() => removeAdmin(user.email)} className="btn btn-sm">Remove Admin</button>}</td>
                             </tr>)
                         }
                     </tbody>
